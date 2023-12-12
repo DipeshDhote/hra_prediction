@@ -4,13 +4,14 @@ import numpy as np
 import os
 import sys
 from src.HeartAttackRiskPrediction.logger import logging
-from src.DimondPricePrediction.exception import customexception
+from src.HeartAttackRiskPrediction.exception import customexception
 from dataclasses import dataclass
-from src.HeartAttackRiskPrediction.utils.utils import save_object
-from src.HeartAttackRiskPrediction.utils.utils import evaluate_model
+from src.HeartAttackRiskPrediction.utils import save_object
+from src.HeartAttackRiskPrediction.utils import evaluate_model
 
-from sklearn.linear_model import LinearRegression, Ridge,Lasso,ElasticNet
-
+from sklearn.linear_model import LogisticRegression 
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 @dataclass 
 class ModelTrainerConfig:
@@ -32,10 +33,10 @@ class ModelTrainer:
             )
 
             models={
-            'LinearRegression':LinearRegression(),
-            'Lasso':Lasso(),
-            'Ridge':Ridge(),
-            'Elasticnet':ElasticNet()
+            'LogisticRegression':LogisticRegression(),
+            'Dicision Tree':DecisionTreeClassifier(),
+            'Random Forest':RandomForestClassifier(),
+            
         }
             
             model_report:dict=evaluate_model(X_train,y_train,X_test,y_test,models)

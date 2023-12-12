@@ -11,9 +11,9 @@ from src.HeartAttackRiskPrediction.logger import logging
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OrdinalEncoder,StandardScaler
+from sklearn.preprocessing import OneHotEncoder,StandardScaler
 
-from src.HeartAttackRiskPrediction.utils.utils import save_object
+from src.HeartAttackRiskPrediction.utils import save_object
 
 @dataclass
 class DataTransformationConfig:
@@ -32,20 +32,18 @@ class DataTransformation:
             logging.info('Data Transformation initiated')
             
             # Define which columns should be ordinal-encoded and which should be scaled
-            categorical_cols = ['cut', 'color','clarity']
-            numerical_cols = ['carat', 'depth','table', 'x', 'y', 'z']
+            categorical_cols = ['Sex']
+            numerical_cols = ['Age', 'Cholesterol', 'Heart Rate', 'Diabetes', 'Smoking',
+                'Alcohol Consumption', 'Previous Heart Problems', 'Medication Use',
+                'Triglycerides', 'Max BP', 'Min BP']
             
-            # Define the custom ranking for each ordinal variable
-            cut_categories = ['Fair', 'Good', 'Very Good','Premium','Ideal']
-            color_categories = ['D', 'E', 'F', 'G', 'H', 'I', 'J']
-            clarity_categories = ['I1','SI2','SI1','VS2','VS1','VVS2','VVS1','IF']
+
             
             logging.info('Pipeline Initiated')
             
             ## Numerical Pipeline
             num_pipeline=Pipeline(
                 steps=[
-                ('imputer',SimpleImputer(strategy='median')),
                 ('scaler',StandardScaler())
 
                 ]
@@ -55,8 +53,7 @@ class DataTransformation:
             # Categorigal Pipeline
             cat_pipeline=Pipeline(
                 steps=[
-                ('imputer',SimpleImputer(strategy='most_frequent')),
-                ('ordinalencoder',OrdinalEncoder(categories=[cut_categories,color_categories,clarity_categories])),
+                ('onehotencoder',OneHotEncoder()),
                 ('scaler',StandardScaler())
                 ]
 
@@ -90,8 +87,8 @@ class DataTransformation:
             
             preprocessing_obj = self.get_data_transformation()
             
-            target_column_name = 'price'
-            drop_columns = [target_column_name,'id']
+            target_column_name = 'Heart Attack Risk'
+            drop_columns = [target_column_name,'Heart Attack Risk']
             
             input_feature_train_df = train_df.drop(columns=drop_columns,axis=1)
             target_feature_train_df=train_df[target_column_name]

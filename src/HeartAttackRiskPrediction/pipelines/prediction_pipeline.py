@@ -3,11 +3,11 @@ import sys
 import pandas as pd
 from src.HeartAttackRiskPrediction.exception import customexception
 from src.HeartAttackRiskPrediction.logger import logging
-from src.HeartAttackRiskPrediction.utils.utils import load_object
+from src.HeartAttackRiskPrediction.utils import load_object
 
 
 class PredictPipeline:
-    def __init__(self):
+    def __init__ (self):
         pass
     
     def predict(self,features):
@@ -33,39 +33,45 @@ class PredictPipeline:
     
 class CustomData:
     def __init__(self,
-                 carat:float,
-                 depth:float,
-                 table:float,
-                 x:float,
-                 y:float,
-                 z:float,
-                 cut:str,
-                 color:str,
-                 clarity:str):
-        
-        self.carat=carat
-        self.depth=depth
-        self.table=table
-        self.x=x
-        self.y=y
-        self.z=z
-        self.cut = cut
-        self.color = color
-        self.clarity = clarity
-            
+                 Age :int,
+                 Cholesterol : int,
+                 Heart_Rate :int ,
+                 Diabetes : int ,
+                 Smoking :int ,
+                 Alcohol_Consumption : int,
+                 Previous_Heart_Problems : int,
+                 Medication_Use : int ,
+                 Triglycerides : int,
+                 Max_BP : int,
+                 Min_BP : int ):
+                 
+        self.Age = Age
+        self.Cholesterol = Cholesterol
+        self.Heart_Rate = Heart_Rate
+        self.Diabetes = Diabetes
+        self.Smoking = Smoking
+        self.Alcohol_Consumption = Alcohol_Consumption
+        self.Previous_Heart_Problems = Previous_Heart_Problems
+        self.Medication_Use = Medication_Use
+        self.Triglycerides = Triglycerides
+        self.Max_BP = Max_BP
+        self.Min_BP = Min_BP      
+                         
                 
     def get_data_as_dataframe(self):
             try:
                 custom_data_input_dict = {
-                    'carat':[self.carat],
-                    'depth':[self.depth],
-                    'table':[self.table],
-                    'x':[self.x],
-                    'y':[self.y],
-                    'z':[self.z],
-                    'cut':[self.cut],
-                    'color':[self.color],
-                    'clarity':[self.clarity]
+                    'Age':[self.Age],
+                    'Cholesterol':[self.Cholesterol],
+                    'Heart_Rate':[self.Heart_Rate],
+                    'Diabetes':[self.Diabetes],
+                    'Smoking':[self.Smoking],
+                    'Alcohol Consuption':[self.Alcohol_Consumption],
+                    'Privious Heart Problem':[self.Previous_Heart_Problems],
+                    'Medication Use':[self.Medication_Use],
+                    'Triglycerides':[self.Triglycerides],
+                    'Max BP':[self.Max_BP],
+                    'Min Bp':[self.Min_BP]
                 }
                 df = pd.DataFrame(custom_data_input_dict)
                 logging.info('Dataframe Gathered')
